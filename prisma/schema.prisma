@@ -14,7 +14,7 @@ datasource db {
 }
 
 model UserSettings {
-  userId   String @id @default(uuid())
+  userId   String @id @unique @default(uuid())
   currency String
 }
 
