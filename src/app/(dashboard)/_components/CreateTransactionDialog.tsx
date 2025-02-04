@@ -38,7 +38,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { CreateTransaction } from "../../../../actions/dashboard/transactions";
 import { toast } from "sonner";
 import { DateToUTCDate } from "@/lib/helpers";
@@ -58,11 +58,16 @@ export default function CreateTransactionDialog({ trigger, type }: Props) {
     },
   });
 
+  const queryClient = new QueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: CreateTransaction,
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Transaction created successfully 🎉", {
         id: "create-transaction",
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: ["overview"],
       });
 
       form.reset({

@@ -5,6 +5,8 @@ import { UserSettings } from "@prisma/client";
 import { differenceInDays, startOfMonth } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
+import StatsCards from "./StatsCards";
+import CategoriesStats from "./CategoriesStats";
 
 export const MAX_DATE_RANGE_DAYS = 90;
 
@@ -39,6 +41,18 @@ function Overview({ userSettings }: { userSettings: UserSettings }) {
           />
         </div>
       </div>
+
+      <StatsCards
+        userSettings={userSettings}
+        from={dateRange.from}
+        to={dateRange.to}
+      />
+
+      <CategoriesStats
+        userSettings={userSettings}
+        from={dateRange.from}
+        to={dateRange.to}
+      />
     </>
   );
 }
